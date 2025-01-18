@@ -6,6 +6,7 @@ import logger from './Settings/middleware/logger';
 import connectDB from './Settings/DB/dbconnect';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+import authenticateuser from './Settings/middleware/authenticate_user'
 import cors from 'cors';
 
 
@@ -34,6 +35,11 @@ app.use(logger);
 app.get('/', (req:Request,res:Response) => {
   res.send('Welcome to LAKI Chat AAP');
 });
+
+app.get('/test', authenticateuser,(req: Request, res: Response) => {
+    console.log((req as any).body.user);
+    res.send("Authenticated user");
+  });
 
 connectDB().then(()=>{
 app.listen(port, () => {
